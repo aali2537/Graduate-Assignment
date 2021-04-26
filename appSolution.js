@@ -33,7 +33,6 @@ const authenticated = function (req, res, next) {
 
 //2. Authenticates users with the post data from /login
 app.post('/login', (req, res, next) => {
-    console.log(req.body.formPassword);
     if (app.locals.userList[req.body.formUser] == req.body.formPassword && app.locals.userList[req.body.formUser] !== undefined) {
         app.locals.currentUser = req.body.formUser;
         res.redirect('/')
