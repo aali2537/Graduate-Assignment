@@ -23,11 +23,37 @@ if (!app.locals.userList) {
 3. Logs out currently signed in user when using the logout link which get requests /logout
 */
 
+//1. Redirect page requests to /login if user is not authenticated/logged in
+const authenticated = function (req, res, next) {
+    if (app.locals.currentUser == 'None') {
+        res.redirect('/login')
+    }
+    next();
+}
+
+//2. Authenticates users with the post data from /login
+app.post('/login', (req, res, next) => {
+    console.log(req.body.formPassword);
+    if (app.locals.userList[req.body.formUser] == req.body.formPassword && app.locals.userList[req.body.formUser] !== undefined) {
+        app.locals.currentUser = req.body.formUser;
+        res.redirect('/')
+    } else {
+        res.redirect('/login');
+    }
+
+})
+
+//3. Logs out current user when visiting /logout hyperlink
+app.get('/logout', (req, res, next) => {
+    app.locals.currentUser = 'None';
+    res.redirect('/login');
+})
+
 app.get('/login', (req, res, next) => {
     res.render('login');
 });
 
-app.get('/', (req, res, next) => {
+app.get('/', authenticated, (req, res, next) => {
     res.render('home');
 })
 
