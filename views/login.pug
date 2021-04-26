@@ -1,0 +1,15 @@
+html 
+head 
+  title Login
+body 
+  h1 User Login 
+  form(method='POST' action='/login/')
+    label(for='formUser') User:
+    br
+    input(type='text' name='formUser' value=user)
+    br
+    label(for='formPassword') Password:
+    br
+    input(type='text' name='formPassword' value=password)
+    br
+    input(type='submit' value='Login')
